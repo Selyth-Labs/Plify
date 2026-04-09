@@ -11,6 +11,8 @@ PROCESSED_FILE = "processed_ids.txt"
 
 ENABLE_EMAIL_NOTICE = False
 CHECK_INTERVAL = 3600
+EMAIL_ADDRESS = ""
+EMAIL_PASSWORD = ""
 
 
 def load_config():
@@ -73,7 +75,7 @@ def run_bot():
                 if result:
                     save_processed_id(task_key)
                     if ENABLE_EMAIL_NOTICE:
-                        send_completion_email(title)
+                        send_completion_email(title, EMAIL_ADDRESS, EMAIL_PASSWORD)
 
     except Exception as e:
         print(f"! 에러 발생 !\n{e}")
