@@ -16,5 +16,5 @@ def send_completion_email(song_title, email_address, email_password):
             smtp.send_message(msg)
         print(f"이메일 알림 발송 완료")
     except Exception as e:
-        print(f"이메일 발송 실패..")
+        # print(f"이메일 발송 실패..")
         print(e)

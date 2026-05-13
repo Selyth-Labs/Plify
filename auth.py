@@ -27,9 +27,9 @@ def get_authenticated_service():
 
 
 if __name__ == "__main__":
-    print("--- 유튜브 API 인증 테스트 ---")
+    # print("--- 유튜브 API 인증 테스트 ---")
     service = get_authenticated_service()
     if service:
         print("인증 성공! 'token.json' 파일이 생성/갱신되었습니다.")
     else:
-        print("인증 실패!")
+        print("인증에 실패하였습니다. 필수 작업을 완료하였는지 확인해주세요.")

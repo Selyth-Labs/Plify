@@ -61,15 +61,15 @@ def run_bot():
                 task_key = f"{video_id}_{target_playlist}"
 
                 if task_key in processed_ids:
-                    print(f"이미 처리된 영상입니다 (패스): {title}")
+                    print(f"이미 처리된 영상입니다: {title}")
                     continue
 
                 if not is_music_video(title, description, duration):
-                    print(f"노래가 아니라고 판단됨 (패스): {title}")
+                    print(f"노래가 아니라고 판단되었습니다: {title}")
                     save_processed_id(task_key)
                     continue
 
-                print(f"새로운 노래 발견 (추가): {title}")
+                print(f"새로운 노래를 발견했습니다. 추가를 시도합니다: {title}")
                 result = insert_video_to_playlist(youtube, target_playlist, video_id)
 
                 if result:
@@ -78,14 +78,14 @@ def run_bot():
                         send_completion_email(title, EMAIL_ADDRESS, EMAIL_PASSWORD)
 
     except Exception as e:
-        print(f"! 에러 발생 !\n{e}")
+        print(e)
 
 
 def main():
     print("유튜브오토플레이리스트 가동")
     while True:
         run_bot()
-        print(f"\n{CHECK_INTERVAL}초 대기 후 다음 확인을 시작합니다...")
+        print(f"\n{CHECK_INTERVAL}초 대기 후 다음 작업을 시작합니다...")
         time.sleep(CHECK_INTERVAL)
 
 

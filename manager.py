@@ -41,7 +41,7 @@ def get_channel_id_from_handle(youtube, handle):
         if 'items' in response and response['items']:
             return response['items'][0]['id']
     except Exception as e:
-        print()
+        print(e)
     return None
 
 
@@ -68,7 +68,7 @@ def add_mapping():
         actual_id = get_channel_id_from_handle(youtube, temp_id)
         if actual_id:
             c_id = actual_id
-            print(f"변환 성공: {c_id}")
+            print(f"변환된 채널 ID : {c_id}")
         else:
             print("채널 ID를 찾을 수 없습니다. 핸들을 다시 확인해주세요.")
             return

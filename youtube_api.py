@@ -50,7 +50,7 @@ def get_latest_videos(youtube, channel_id, max_results=5):
     return clean_videos
 
 def insert_video_to_playlist(youtube, playlist_id, video_id):
-    print(f"동영상({video_id})를 내 재생목록({playlist_id})에 추가하는 중..")
+    print(f"동영상({video_id})를 재생목록({playlist_id})에 추가하는 중..")
 
     try:
         request = youtube.playlistItems().insert(
@@ -63,9 +63,9 @@ def insert_video_to_playlist(youtube, playlist_id, video_id):
             }
         )
         response = request.execute()
-        print("추가 완료!")
+        print(f"동영상({video_id})를 재생목록({playlist_id})에 추가하였습니다.")
         return response
     except Exception as e:
-        print("추가 실패..")
+        # print("추가 실패..")
         print(e)
         return None
