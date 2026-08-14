@@ -29,7 +29,7 @@ def is_music_video(title, description="", duration=""):
         return True
 
     desc_lower = description.lower()
-    if "music Credit" in desc_lower or "music video credit" in desc_lower:
+    if "music credit" in desc_lower or "music video credit" in desc_lower:
         return True
 
     return False

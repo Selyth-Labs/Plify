@@ -61,19 +61,21 @@ def run_bot():
                 task_key = f"{video_id}_{target_playlist}"
 
                 if task_key in processed_ids:
-                    print(f"이미 처리된 영상입니다: {title}")
+                    print(f"이미 등록된 영상입니다: {title}")
                     continue
 
                 if not is_music_video(title, description, duration):
-                    print(f"노래가 아니라고 판단되었습니다: {title}")
+                    print(f"노래 영상이 아니므로 건너뜁니다: {title}")
                     save_processed_id(task_key)
                     continue
 
-                print(f"새로운 노래를 발견했습니다. 추가를 시도합니다: {title}")
+                print(f"새로운 노래를 발견했습니다. 플레이리스트에 추가를 시도합니다: {title}")
                 result = insert_video_to_playlist(youtube, target_playlist, video_id)
 
                 if result:
                     save_processed_id(task_key)
+                    processed_ids.add(task_key)
+
                     if ENABLE_EMAIL_NOTICE:
                         send_completion_email(title, EMAIL_ADDRESS, EMAIL_PASSWORD)
 
@@ -82,11 +84,16 @@ def run_bot():
 
 
 def main():
-    print("유튜브오토플레이리스트 가동")
-    while True:
-        run_bot()
-        print(f"\n{CHECK_INTERVAL}초 대기 후 다음 작업을 시작합니다...")
-        time.sleep(CHECK_INTERVAL)
+    print("Plify 가동")
+    try:
+        while True:
+            run_bot()
+
+            print(f"\n{CHECK_INTERVAL}초 대기 후 다음 작업을 시작합니다.")
+            time.sleep(CHECK_INTERVAL)
+
+    except KeyboardInterrupt:
+        print("\nPlify를 종료합니다.")
 
 
 if __name__ == "__main__":

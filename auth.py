@@ -15,7 +15,7 @@ def get_authenticated_service():
             print("기존 토큰을 갱신합니다..")
             creds.refresh(Request())
         else:
-            print("로그인이 필요합니다. 브라우저 창을 확인해주세요.")
+            print("로그인이 필요합니다. 브라우저 창을 확인해주세요.\n")
             flow = InstalledAppFlow.from_client_secrets_file(
                 'client_secret.json', SCOPES)
             creds = flow.run_local_server(port=0)
@@ -27,9 +27,8 @@ def get_authenticated_service():
 
 
 if __name__ == "__main__":
-    # print("--- 유튜브 API 인증 테스트 ---")
-    service = get_authenticated_service()
-    if service:
+    try:
+        get_authenticated_service()
         print("인증 성공! 'token.json' 파일이 생성/갱신되었습니다.")
-    else:
-        print("인증에 실패하였습니다. 필수 작업을 완료하였는지 확인해주세요.")
+    except Exception as e:
+        print(e)

@@ -19,7 +19,7 @@ def save_config(config):
 
 
 def extract_channel_input(url):
-    match = re.search(r'(?:shorts/|live/|@|channel/|c/)([\w-]+)', url)
+    match = re.search(r'(?:@|channel/)([\w-]+)', url)
     return match.group(1) if match else url
 
 
@@ -100,7 +100,7 @@ def delete_mapping():
 
 def main_menu():
     while True:
-        print("\n[ 유튜브오토플레이리스트 매니저 ]")
+        print("\n[ Plify 매니저 ]")
         print("1. 리스트 보기")
         print("2. 매핑 추가")
         print("3. 매핑 삭제")
