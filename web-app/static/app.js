@@ -2,10 +2,10 @@ const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state, view='dashboard', filter='all', toastTimer, submitting=false, connected=false, refreshing=false;
 const local = ['127.0.0.1','localhost'].includes(location.hostname);
-let serverURL = localStorage.getItem('plify-server-url') || (local ? location.origin : 'https://plify-api.selyth.xyz');
+let serverURL = local ? (localStorage.getItem('plify-server-url') || location.origin) : location.origin;
 let accessKey = sessionStorage.getItem('plify-access-key') || '';
 function authHeaders(extra={}){return {...extra,...(accessKey?{Authorization:'Bearer '+accessKey}:{})}}
-function openConnection(){ $('#server-url').value=serverURL; $('#access-key').value=accessKey; $('#connect-error').textContent=''; if(!$('#connect-dialog').open)$('#connect-dialog').showModal(); }
+function openConnection(){ $('#server-url').value=serverURL; $('#server-url').readOnly=!local; $('#access-key').value=accessKey; $('#connect-error').textContent=''; if(!$('#connect-dialog').open)$('#connect-dialog').showModal(); }
 
 const titles={dashboard:['링크 하나로, 나의 음악.','YouTube 영상이나 플레이리스트 링크를 넣고 MP3로 저장하세요.','다운로드'],logs:['다운로드의 모든 기록.','링크 조회와 다운로드 작업 결과를 확인하세요.','실행 기록']};
 function navigate(next){if(!titles[next])next='dashboard';view=next;document.querySelectorAll('.view').forEach(e=>e.hidden=e.id!==view);document.querySelectorAll('aside [data-view]').forEach(e=>e.classList.toggle('selected',e.dataset.view===view));$('#page-title').textContent=titles[view][0];$('#page-description').textContent=titles[view][1];$('#breadcrumb').textContent=titles[view][2];history.replaceState(null,'','#'+view)}
@@ -22,9 +22,9 @@ async function refresh(){
   refreshing=true;
   try{
     const r=await fetch(serverURL+'/api/state',{cache:'no-store',headers:authHeaders(),signal:AbortSignal.timeout(10000)});
-    if(!r.ok)throw Error(r.status===401?'접속 키를 확인해주세요.':r.status===403?'서버 앱에 이 웹 주소를 허용해주세요.':'서버 오류: '+r.status);
+    if(!r.ok)throw Error(r.status===401?'접속 키를 확인해주세요.':r.status===403?'서버 앱에 이 웹 주소를 허용해주세요.':[502,503,504].includes(r.status)?'맥미니 서버에 연결되지 않습니다. 서버 앱과 Cloudflare 터널을 확인해주세요. (HTTP '+r.status+')':'서버 오류: '+r.status);
     state=await r.json(); connected=true; render(); return true;
-  }catch(e){ connected=false; $('.connection').textContent='○ 서버 연결 설정'; $('#connect-error').textContent=e.message==='Failed to fetch'?'서버 앱·터널 실행 상태와 허용 웹 주소를 확인해주세요.':e.message; controls(); return false;
+  }catch(e){ connected=false; $('.connection').textContent='○ 서버 연결 설정'; $('#connect-error').textContent=['Failed to fetch','Load failed'].includes(e.message)?'서버 연결에 실패했습니다. 맥미니 앱과 터널 실행 상태를 확인해주세요.':e.message; controls(); return false;
   }finally{refreshing=false}
 }
 async function downloadFile(id,button){

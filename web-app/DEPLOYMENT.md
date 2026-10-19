@@ -2,7 +2,7 @@
 
 완성 형태: Vercel 웹 화면 → HTTPS → plify-api.selyth.xyz → Cloudflare Tunnel → 맥미니의 Plify Server.app.
 
-Vercel은 HTML/CSS/JS만 배포합니다. Python, FFmpeg, Node, yt-dlp, cloudflared는 서버 앱에 포함되어 맥미니에서 실행됩니다. 맥미니에는 Python·Homebrew를 설치할 필요가 없습니다. 이 빌드는 Apple Silicon(M1 이상), macOS 26 이상용입니다.
+Vercel은 HTML/CSS/JS와 외부 API 프록시 경로를 배포합니다. Python, FFmpeg, Node, yt-dlp, cloudflared는 서버 앱에 포함되어 맥미니에서 실행됩니다. 맥미니에는 Python·Homebrew를 설치할 필요가 없습니다. 이 빌드는 Apple Silicon(M1 이상), macOS 26 이상용입니다.
 
 ## 1. 서버 앱 옮기기
 
@@ -55,7 +55,7 @@ Cloudflare Access의 브라우저 로그인 정책은 이 API 호스트에 추�
 1. 맥미니 앱의 **허용할 Vercel 웹 주소**에 실제 발급된 `https://프로젝트명.vercel.app`을 입력합니다. 경로 없이 도메인까지만 입력합니다. 사용자 지정 도메인이 있다면 쉼표로 함께 넣을 수 있습니다.
 2. **설정 저장 · 서버 시작**을 누릅니다.
 3. Vercel 웹 화면을 열면 서버 연결 창이 나타납니다.
-4. 서버 주소에 `https://plify-api.selyth.xyz`를 입력합니다.
+4. 배포된 웹 화면의 서버 주소는 현재 Vercel 웹 주소로 자동 지정됩니다. 웹은 `/api/` 프록시를 통해 `https://plify-api.selyth.xyz`에 연결하므로 이 값을 바꾸지 않습니다.
 5. 맥미니 앱의 **접속 키 복사**를 눌러 웹 화면의 **접속 키**에 붙여넣습니다. Cloudflare 터널 토큰과 다른 값입니다.
 6. 연결을 누르고 YouTube 영상/플레이리스트 링크를 입력합니다.
 7. 변환이 완료되면 **파일 받기**로 접속한 휴대폰/PC에 MP3를 저장할 수 있습니다. 원본 MP3는 맥미니에도 남습니다.
