@@ -1,3 +1,23 @@
+# 공개 웹 앱 v2 업데이트 (2026-10-26)
+
+현재 배포는 정적 페이지와 Vercel Node 게이트웨이 함수로 구성됩니다. 아래의 기존 v1 설명 중 ‘사이트 접속 키 입력’과 ‘정적 파일만 배포’는 v2에 해당하지 않습니다.
+
+1. `dist/Plify-Server-Public-AppleSilicon.zip`의 새 서버 앱으로 교체합니다. 기존 서버 앱은 먼저 종료합니다. 터널 토큰과 허용 웹 주소는 유지됩니다.
+2. 맥미니의 http://127.0.0.1:8765/admin 에 접속합니다.
+3. 서버 앱의 ‘접속 키 복사’는 로컬 관리 화면을 여는 데만 사용합니다.
+4. 시간당 횟수와 다운로드 코드를 저장합니다. 기본 3회/시간이며 즉시 적용됩니다.
+5. 방문자는 접속 키 없이 사용하고, 필요한 사람만 다운로드 코드를 인증합니다.
+
+Vercel 배포에는 `static/`, `api/`, `package.json`, `vercel.json`이 필요합니다. `PLIFY_GATEWAY_PRIVATE_KEY`를 production Sensitive 환경 변수로 설정하고 그 키와 짝인 공개키만 서버의 `public-gateway.json`에 포함합니다. 비밀키는 Git·정적 파일·서버 번들에 넣지 않습니다. 키를 변경하면 공개키를 포함한 서버 앱도 함께 업데이트해야 합니다.
+
+Vercel 프로젝트: `plify-web` / `prj_sZgcSgXP22PhzNYWZ3RvfLHHH1vp`. 공개 주소: https://plify-web.vercel.app . 맥미니 터널: https://plify-api.selyth.xyz . 외부 rewrite는 `/api/web-file/:path*`만 허용합니다.
+
+GUI의 기존 음악 폴더/접속 키 설명은 GUI 유지 요청에 따라 그대로입니다. 실제 v2 웹 요청은 임시 파일을 생성해 요청한 브라우저에 전송합니다. 원래 데스크톱 앱 동작은 변경하지 않습니다.
+
+---
+
+## 이전 v1 구축 기록 (참고)
+
 # 맥미니 + Vercel 연결 가이드
 
 완성 형태: Vercel 웹 화면 → HTTPS → plify-api.selyth.xyz → Cloudflare Tunnel → 맥미니의 Plify Server.app.
